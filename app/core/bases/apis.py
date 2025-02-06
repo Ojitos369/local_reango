@@ -12,9 +12,9 @@ from rest_framework.response import Response
 
 # Ojitos369
 from ojitos369.utils import get_d, print_line_center, printwln as pln
-
+from ojitos369_postgres_db.postgres_db import ConexionPostgreSQL
 # User
-from app.settings import MYE, prod_mode, ce
+from app.settings import MYE, prod_mode, ce, DBDATA
 
 class BaseApi(APIView):
     def __init__(self):
@@ -24,6 +24,20 @@ class BaseApi(APIView):
         self.MYE = MYE
         self.response_mode = 'json'
         self.extra_error = ""
+        self.conexion = None
+    def __del__(self):
+        self.close_conexion()
+
+    def crear_conexion(self):
+        self.close_conexion()
+        self.conexion = ConexionPostgreSQL(DBDATA)
+        self.conexion.raise_error = True
+
+    def close_conexion(self):
+        try:
+            self.conexion.close()
+        except:
+            pass
 
     def errors(self, e):
         try:
@@ -95,10 +109,10 @@ class BaseApi(APIView):
         self.request = request
         self.kwargs = kwargs
         self.get_client_ip()
+        self.get_get_data()
         if self.request.method in ('POST', 'PUT', 'PATCH'):
             self.get_post_data()
-        elif self.request.method == 'GET':
-            self.get_get_data()
+
         try:
             self.validate_session()
             self.main()

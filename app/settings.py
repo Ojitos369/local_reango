@@ -178,3 +178,14 @@ ce = CE(name_project = 'REANGO BASE', email_settings = email_settings)
 
 class MYE(Exception):
     pass
+
+
+DBDATA = {
+    "host": os.environ.get('DB_HOST', 'localhost'),
+    "user": os.environ.get('DB_USER', 'postgres'),
+    "password": os.environ.get('DB_PASSWORD', 'postgres'),
+    "name": os.environ.get('DB_NAME', 'postgres'),
+    "port": os.environ.get('DB_PORT', 5432),
+}
+
+
