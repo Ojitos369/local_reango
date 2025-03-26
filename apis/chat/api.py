@@ -20,7 +20,7 @@ class ChatOllama(PostApi, GetApi):
         deepseek-r1:1.5b         a42b25d8c10a    1.1 GB    6 days ago
         """
         self.show_me()
-        model = self.data.get("model", "qwen2.5:3b")
+        model = self.data.get("model", "gemma3:4b")
         clave = self.data.get("clave", str(uuid4()))
         message = self.data.get("message", None)
         if not message:
